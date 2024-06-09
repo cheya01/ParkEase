@@ -1,9 +1,18 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import {View, Text, Image, TouchableOpacity, SafeAreaView, StyleSheet} from "react-native";
 import { useFonts, Raleway_700Bold } from "@expo-google-fonts/raleway";
 import { Nunito_400Regular, Nunito_700Bold } from "@expo-google-fonts/nunito";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { styles } from '@/styles/onboarding/onboarding'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from "react-native-responsive-dimensions";
+
+import colors from '../../constants/Colors'
 
 export default function OnboardingScreen() {
   let [fontsLoaded, fontError] = useFonts({
@@ -18,21 +27,21 @@ export default function OnboardingScreen() {
 
   return (
    <LinearGradient
-   colors={["#E5ECF9", "#F6F7F9"]}
+   colors={[colors.background, colors.yellow]}
    style={{flex:1, alignItems:"center", justifyContent:"center"}}
    >
-      <View style={styles.firstContainer}>
+      <SafeAreaView style={styles.firstContainer}>
         <View>
           <Image
             source={require('@/assets/images/ParkEase_logo.png')}
-            style={styles.logo}
+            style={[styles.logo, styles.shadowProp]}
           />
           <View style={styles.dscpWrapper}>
           <Text style={[styles.dscpText, { fontFamily: "Nunito_400Regular" }]}>
             Your gateway to
           </Text>
           <Text style={[styles.dscpText, { fontFamily: "Nunito_400Regular" }]}>
-            hassel-free parking
+            hassle-free parking
           </Text>
         </View>
         </View>
@@ -41,10 +50,62 @@ export default function OnboardingScreen() {
           onPress={() => router.push("/(routes)/welcome-intro")}
         >
           <Text style={[styles.buttonText, { fontFamily: "Nunito_700Bold" }]}>
-            Getting Started
+            Get Started
           </Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
    </LinearGradient>  
   )
 }
+
+// styles
+export const styles = StyleSheet.create({
+  firstContainer: {
+    alignItems: "center",
+    marginTop: 50,
+  },
+  logo: {
+    width: wp("65%"),
+    height: hp("30%"),
+  },
+  shadowProp: {
+    shadowColor: '#ffff00',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  titleText:{
+    fontSize: hp("4%"),
+    textAlign: "center",
+  },
+  dscpWrapper: {
+    marginTop: 30,
+  },
+  dscpText: {
+    textAlign: "center",
+    color: "#363636",
+    fontSize: hp("2%"),
+  },
+  buttonWrapper: {
+    backgroundColor: colors.primary,
+    width: wp("92%"),
+    paddingVertical: 18,
+    borderRadius: 8,
+    marginTop: 80,
+
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
+    fontSize: hp("2.5%"),
+  },
+  welcomeButtonStyle:{
+    backgroundColor: "#2467EC",
+    width: responsiveWidth(88),
+    height: responsiveHeight(5.5),
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+  }
+});
