@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TextInput,
     TouchableOpacity,
-    ActivityIndicator,
+    ActivityIndicator, SafeAreaView,
 } from "react-native";
 import {
     Entypo,
@@ -33,6 +33,10 @@ import axios from "axios";
 import { SERVER_URI } from "@/utils/uri";
 import { Toast } from "react-native-toast-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import colors from "../../../constants/Colors"
+import {white} from "colorette";
+import {color} from "ansi-fragments";
 
 export default function LoginScreen() {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -113,168 +117,173 @@ export default function LoginScreen() {
 
     return (
         <LinearGradient
-            colors={["#E5ECF9", "#F6F7F9"]}
-            style={{ flex: 1, paddingTop: 20 }}
+            colors={[colors.tertiary,"white"]}
+            style={{ flex: 1}}
+            start={{ x: 0.5, y: 1 }}
+            end={{x: 0.5, y: 0 }}
         >
-            <ScrollView>
-                <Image
-                    style={styles.signInImage}
-                    source={require("../../../assets/sign-in/sign_in.png")}
-                />
-                <Text style={[styles.welcomeText, { fontFamily: "Raleway_700Bold" }]}>
-                    Welcome Back!
-                </Text>
-                <Text style={styles.learningText}>
-                    Login to your existing account of Becodemy
-                </Text>
-                <View style={styles.inputContainer}>
-                    <View>
-                        <TextInput
-                            style={[styles.input, { paddingLeft: 40 }]}
-                            keyboardType="email-address"
-                            value={userInfo.email}
-                            placeholder="support@becodemy.com"
-                            onChangeText={(value) =>
-                                setUserInfo({ ...userInfo, email: value })
-                            }
-                        />
-                        <Fontisto
-                            style={{ position: "absolute", left: 26, top: 17.8 }}
-                            name="email"
-                            size={20}
-                            color={"#A1A1A1"}
-                        />
-                        {required && (
-                            <View style={styles.errorContainer}>
-                                <Entypo name="cross" size={18} color={"red"} />
-                            </View>
-                        )}
-                        <View style={{ marginTop: 15 }}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <ScrollView>
+                    <Image
+                        style={styles.signInImage}
+                        source={require("@/assets/sign-in/signin.webp")}
+                    />
+                    <Text style={[styles.welcomeText, { fontFamily: "Raleway_700Bold" }]}>
+                        Welcome Back!
+                    </Text>
+                    <Text style={styles.learningText}>
+                        Login to your existing account of ParkEase
+                    </Text>
+                    <View style={styles.inputContainer}>
+                        <View>
                             <TextInput
-                                style={styles.input}
-                                keyboardType="default"
-                                secureTextEntry={!isPasswordVisible}
-                                defaultValue=""
-                                placeholder="********"
-                                onChangeText={handlePasswordValidation}
+                                style={[styles.input, { paddingLeft: 40 }]}
+                                keyboardType="email-address"
+                                value={userInfo.email}
+                                placeholder="support@becodemy.com"
+                                onChangeText={(value) =>
+                                    setUserInfo({ ...userInfo, email: value })
+                                }
                             />
-                            <TouchableOpacity
-                                style={styles.visibleIcon}
-                                onPress={() => setPasswordVisible(!isPasswordVisible)}
-                            >
-                                {isPasswordVisible ? (
-                                    <Ionicons
-                                        name="eye-off-outline"
-                                        size={23}
-                                        color={"#747474"}
-                                    />
-                                ) : (
-                                    <Ionicons name="eye-outline" size={23} color={"#747474"} />
-                                )}
-                            </TouchableOpacity>
-                            <SimpleLineIcons
-                                style={styles.icon2}
-                                name="lock"
+                            <Fontisto
+                                style={{ position: "absolute", left: 26, top: 17.8 }}
+                                name="email"
                                 size={20}
                                 color={"#A1A1A1"}
                             />
-                        </View>
-                        {error.password && (
-                            <View style={[styles.errorContainer, { top: 145 }]}>
-                                <Entypo name="cross" size={18} color={"red"} />
-                                <Text style={{ color: "red", fontSize: 11, marginTop: -1 }}>
-                                    {error.password}
-                                </Text>
-                            </View>
-                        )}
-                        <TouchableOpacity
-                            onPress={() => router.push("/(routes)/forgot-password")}
-                        >
-                            <Text
-                                style={[
-                                    styles.forgotSection,
-                                    { fontFamily: "Nunito_600SemiBold" },
-                                ]}
-                            >
-                                Forgot Password?
-                            </Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={{
-                                padding: 16,
-                                borderRadius: 8,
-                                marginHorizontal: 16,
-                                backgroundColor: "#2467EC",
-                                marginTop: 15,
-                            }}
-                            onPress={handleSignIn}
-                        >
-                            {buttonSpinner ? (
-                                <ActivityIndicator size="small" color={"white"} />
-                            ) : (
-                                <Text
-                                    style={{
-                                        color: "white",
-                                        textAlign: "center",
-                                        fontSize: 16,
-                                        fontFamily: "Raleway_700Bold",
-                                    }}
-                                >
-                                    Sign In
-                                </Text>
+                            {required && (
+                                <View style={styles.errorContainer}>
+                                    <Entypo name="cross" size={18} color={"red"} />
+                                </View>
                             )}
-                        </TouchableOpacity>
-
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginTop: 20,
-                                gap: 10,
-                            }}
-                        >
-                            <TouchableOpacity>
-                                <FontAwesome name="google" size={30} />
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <FontAwesome name="github" size={30} />
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={styles.signupRedirect}>
-                            <Text style={{ fontSize: 18, fontFamily: "Raleway_600SemiBold" }}>
-                                Don't have an account?
-                            </Text>
+                            <View style={{ marginTop: 15 }}>
+                                <TextInput
+                                    style={styles.input}
+                                    keyboardType="default"
+                                    secureTextEntry={!isPasswordVisible}
+                                    defaultValue=""
+                                    placeholder="********"
+                                    onChangeText={handlePasswordValidation}
+                                />
+                                <TouchableOpacity
+                                    style={styles.visibleIcon}
+                                    onPress={() => setPasswordVisible(!isPasswordVisible)}
+                                >
+                                    {isPasswordVisible ? (
+                                        <Ionicons
+                                            name="eye-off-outline"
+                                            size={23}
+                                            color={"#747474"}
+                                        />
+                                    ) : (
+                                        <Ionicons name="eye-outline" size={23} color={"#747474"} />
+                                    )}
+                                </TouchableOpacity>
+                                <SimpleLineIcons
+                                    style={styles.icon2}
+                                    name="lock"
+                                    size={20}
+                                    color={"#A1A1A1"}
+                                />
+                            </View>
+                            {error.password && (
+                                <View style={[styles.errorContainer, { top: 145 }]}>
+                                    <Entypo name="cross" size={18} color={"red"} />
+                                    <Text style={{ color: "red", fontSize: 11, marginTop: -1 }}>
+                                        {error.password}
+                                    </Text>
+                                </View>
+                            )}
                             <TouchableOpacity
-                                onPress={() => router.push("/(routes)/sign-up")}
+                                onPress={() => router.push("/(routes)/forgot-password")}
                             >
                                 <Text
-                                    style={{
-                                        fontSize: 18,
-                                        fontFamily: "Raleway_600SemiBold",
-                                        color: "#2467EC",
-                                        marginLeft: 5,
-                                    }}
+                                    style={[
+                                        styles.forgotSection,
+                                        { fontFamily: "Nunito_600SemiBold" },
+                                    ]}
                                 >
-                                    Sign Up
+                                    Forgot Password?
                                 </Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={{
+                                    padding: 16,
+                                    borderRadius: 8,
+                                    marginHorizontal: 16,
+                                    backgroundColor: colors.primary,
+                                    marginTop: 15,
+                                }}
+                                onPress={handleSignIn}
+                            >
+                                {buttonSpinner ? (
+                                    <ActivityIndicator size="small" color={"white"} />
+                                ) : (
+                                    <Text
+                                        style={{
+                                            color: "white",
+                                            textAlign: "center",
+                                            fontSize: 16,
+                                            fontFamily: "Raleway_700Bold",
+                                        }}
+                                    >
+                                        Sign In
+                                    </Text>
+                                )}
+                            </TouchableOpacity>
+
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    marginTop: 20,
+                                    gap: 10,
+                                }}
+                            >
+                                <TouchableOpacity>
+                                    <FontAwesome name="google" size={30} />
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <FontAwesome name="github" size={30} />
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.signupRedirect}>
+                                <Text style={{ fontSize: 18, fontFamily: "Raleway_600SemiBold" }}>
+                                    Don't have an account?
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => router.push("/(routes)/sign-up")}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 18,
+                                            fontFamily: "Raleway_600SemiBold",
+                                            color: "#2467EC",
+                                            marginLeft: 5,
+                                        }}
+                                    >
+                                        Sign Up
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </SafeAreaView>
         </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
     signInImage: {
-        width: "60%",
+        width: "80%",
         height: 250,
         alignSelf: "center",
-        marginTop: 50,
+        marginTop: 25,
+        marginBottom: 25
     },
     welcomeText: {
         textAlign: "center",

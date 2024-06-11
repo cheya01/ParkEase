@@ -17,6 +17,8 @@ import {
     responsiveWidth,
 } from "react-native-responsive-dimensions";
 
+import colors from '../../constants/Colors'
+
 export default function WelcomeIntroScreen() {
     let [fontsLoaded, fontError] = useFonts({
         Raleway_700Bold,
@@ -29,8 +31,10 @@ export default function WelcomeIntroScreen() {
     }
     const renderItem = ({ item }: { item: onboardingSwiperDataType }) => (
         <LinearGradient
-            colors={["#E5ECF9", "F6F7F9", "#E8EEF9"]}
+            colors={["#548872", colors.white]}
             style={{ flex: 1, paddingHorizontal: 16 }}
+            start={{ x: 0, y: 0 }}
+            end={{x: 1 , y: 1 }}
         >
             <View style={{ marginTop: 80 }}>
                 <Image
@@ -158,7 +162,7 @@ export const styles = StyleSheet.create({
         top: 60,
     },
     welcomeButtonStyle:{
-        backgroundColor: "#2467EC",
+        backgroundColor: colors.secondary,
         width: responsiveWidth(88),
         height: responsiveHeight(5.5),
         alignSelf: "center",

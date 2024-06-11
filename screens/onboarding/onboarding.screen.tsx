@@ -27,7 +27,7 @@ export default function OnboardingScreen() {
 
   return (
    <LinearGradient
-   colors={[colors.background, colors.yellow]}
+   colors={["#06837f", "#fed811", "#fff6c4"]}
    style={{flex:1, alignItems:"center", justifyContent:"center"}}
    >
       <SafeAreaView style={styles.firstContainer}>
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
   dscpText: {
     textAlign: "center",
     color: "#363636",
-    fontSize: hp("2%"),
+    fontSize: hp("3%"),
   },
   buttonWrapper: {
     backgroundColor: colors.primary,
