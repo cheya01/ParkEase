@@ -38,7 +38,7 @@ import colors from "../../../constants/Colors"
 import {white} from "colorette";
 import {color} from "ansi-fragments";
 
-export default function LoginScreen() {
+export default function SignUpScreen() {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
     const [buttonSpinner, setButtonSpinner] = useState(false);
     const [userInfo, setUserInfo] = useState({
@@ -96,7 +96,7 @@ export default function LoginScreen() {
         }
     };
 
-    const handleSignIn = async () => {
+    const handleSignUp = async () => {
         await axios
             .post(`${SERVER_URI}/login`, {
                 email: userInfo.email,
@@ -129,10 +129,10 @@ export default function LoginScreen() {
                         source={require("@/assets/sign-in/signin.webp")}
                     />
                     <Text style={[styles.welcomeText, { fontFamily: "Raleway_700Bold" }]}>
-                        Welcome Back!
+                        Hi, Welcome to ParkEase
                     </Text>
                     <Text style={styles.learningText}>
-                        Login to your existing account of ParkEase
+                        Create an account and start parking in no time
                     </Text>
                     <View style={styles.inputContainer}>
                         <View>
@@ -194,18 +194,6 @@ export default function LoginScreen() {
                                     </Text>
                                 </View>
                             )}
-                            <TouchableOpacity
-                                onPress={() => router.push("/(routes)/forgot-password")}
-                            >
-                                <Text
-                                    style={[
-                                        styles.forgotSection,
-                                        { fontFamily: "Nunito_600SemiBold" },
-                                    ]}
-                                >
-                                    Forgot Password?
-                                </Text>
-                            </TouchableOpacity>
 
                             <TouchableOpacity
                                 style={{
@@ -215,7 +203,7 @@ export default function LoginScreen() {
                                     backgroundColor: colors.primary,
                                     marginTop: 15,
                                 }}
-                                onPress={handleSignIn}
+                                onPress={handleSignUp}
                             >
                                 {buttonSpinner ? (
                                     <ActivityIndicator size="small" color={"white"} />
@@ -228,7 +216,7 @@ export default function LoginScreen() {
                                             fontFamily: "Raleway_700Bold",
                                         }}
                                     >
-                                        Login
+                                        Sign Up
                                     </Text>
                                 )}
                             </TouchableOpacity>
@@ -252,10 +240,10 @@ export default function LoginScreen() {
 
                             <View style={styles.signupRedirect}>
                                 <Text style={{ fontSize: 18, fontFamily: "Raleway_600SemiBold" }}>
-                                    Don't have an account?
+                                    Already have an account?
                                 </Text>
                                 <TouchableOpacity
-                                    onPress={() => router.push("/(routes)/sign-up")}
+                                    onPress={() => router.push("/(routes)/login")}
                                 >
                                     <Text
                                         style={{
@@ -265,7 +253,7 @@ export default function LoginScreen() {
                                             marginLeft: 5,
                                         }}
                                     >
-                                        Sign Up
+                                        Login
                                     </Text>
                                 </TouchableOpacity>
                             </View>
