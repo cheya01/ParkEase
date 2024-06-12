@@ -4,7 +4,7 @@ const tintColorDark = '#fff';
 export default {
     primary: '#003B73',
     secondary: '#00A8E8',
-    tertiary: '#548872',
+    tertiary: '#CCDFD7',
     success: '#00833D',
     error: '#FF0018',
     background: '#F4F4F4',
@@ -12,6 +12,8 @@ export default {
     yellow: '#ffff00',
     white: '#ffffff',
     black: '#000000',
+    caution_yellow: '#f7ee20',
+    caution_orange: '#f69220',
 
     tint: tintColorLight,
     tabIconSelected: tintColorLight,

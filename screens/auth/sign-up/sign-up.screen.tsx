@@ -9,6 +9,7 @@ import {
     ActivityIndicator, SafeAreaView,
 } from "react-native";
 import {
+    AntDesign,
     Entypo,
     FontAwesome,
     Fontisto,
@@ -42,6 +43,7 @@ export default function SignUpScreen() {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
     const [buttonSpinner, setButtonSpinner] = useState(false);
     const [userInfo, setUserInfo] = useState({
+        name: "",
         email: "",
         password: "",
     });
@@ -95,25 +97,27 @@ export default function SignUpScreen() {
             setUserInfo({ ...userInfo, password: value });
         }
     };
-
-    const handleSignUp = async () => {
-        await axios
-            .post(`${SERVER_URI}/login`, {
-                email: userInfo.email,
-                password: userInfo.password,
-            })
-            .then(async (res) => {
-                await AsyncStorage.setItem("access_token", res.data.accessToken);
-                await AsyncStorage.setItem("refresh_token", res.data.refreshToken);
-                router.push("/(tabs)");
-            })
-            .catch((error) => {
-                console.log(error);
-                Toast.show("Email or password is not correct!", {
-                    type: "danger",
-                });
-            });
-    };
+    const handleSignUp = () => {
+        router.push("(routes)/verifyAccount")
+    }
+    // const handleSignUp = async () => {
+    //     await axios
+    //         .post(`${SERVER_URI}/login`, {
+    //             email: userInfo.email,
+    //             password: userInfo.password,
+    //         })
+    //         .then(async (res) => {
+    //             await AsyncStorage.setItem("access_token", res.data.accessToken);
+    //             await AsyncStorage.setItem("refresh_token", res.data.refreshToken);
+    //             router.push("/(tabs)");
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //             Toast.show("Email or password is not correct!", {
+    //                 type: "danger",
+    //             });
+    //         });
+    // };
 
     return (
         <LinearGradient
@@ -135,9 +139,32 @@ export default function SignUpScreen() {
                         Create an account and start parking in no time
                     </Text>
                     <View style={styles.inputContainer}>
-                        <View>
+    {/*name field*/}
+                        <View style={{marginTop:15}}>
                             <TextInput
-                                style={[styles.input, { paddingLeft: 40 }]}
+                                style={styles.input}
+                                keyboardType="default"
+                                value={userInfo.name}
+                                placeholder="Jack sparrow"
+                                onChangeText={(value) =>
+                                    setUserInfo({ ...userInfo, name: value })
+                                }
+                            />
+                            <AntDesign
+                                style={{ position: "absolute", left: 26, top: 17.8 }}
+                                name="user"
+                                size={20}
+                                color={"#A1A1A1"}
+                            />
+                            {required && (
+                                <View style={styles.errorContainer}>
+                                    <Entypo name="cross" size={18} color={"red"} />
+                                </View>
+                            )}
+    {/*email field*/}
+                        <View style={{marginTop:15}}>
+                            <TextInput
+                                style={styles.input}
                                 keyboardType="email-address"
                                 value={userInfo.email}
                                 placeholder="support@becodemy.com"
@@ -156,6 +183,7 @@ export default function SignUpScreen() {
                                     <Entypo name="cross" size={18} color={"red"} />
                                 </View>
                             )}
+        {/*password field*/}
                             <View style={{ marginTop: 15 }}>
                                 <TextInput
                                     style={styles.input}
@@ -255,11 +283,12 @@ export default function SignUpScreen() {
                                     >
                                         Login
                                     </Text>
-                                </TouchableOpacity>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                </ScrollView>
+                    </ScrollView>
             </SafeAreaView>
         </LinearGradient>
     );
